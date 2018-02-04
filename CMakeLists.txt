@@ -44,8 +44,6 @@ target_link_libraries(exampleB2a ${Geant4_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(EXAMPLEB2A_SCRIPTS
-  exampleB2a.out
-  exampleB2.in
   icons.mac
   gui.mac
   run.png
