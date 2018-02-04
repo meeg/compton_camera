@@ -23,13 +23,13 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2PrimaryGeneratorAction.hh 68058 2013-03-13 14:47:43Z gcosmo $
+// $Id: PrimaryGeneratorAction.hh 68058 2013-03-13 14:47:43Z gcosmo $
 //
-/// \file B2PrimaryGeneratorAction.hh
-/// \brief Definition of the B2PrimaryGeneratorAction class
+/// \file PrimaryGeneratorAction.hh
+/// \brief Definition of the PrimaryGeneratorAction class
 
-#ifndef B2PrimaryGeneratorAction_h
-#define B2PrimaryGeneratorAction_h 1
+#ifndef PrimaryGeneratorAction_h
+#define PrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
@@ -44,11 +44,11 @@ class G4Event;
 /// can be changed via the G4 build-in commands of G4ParticleGun class 
 /// (see the macros provided with this example).
 
-class B2PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    B2PrimaryGeneratorAction();    
-    virtual ~B2PrimaryGeneratorAction();
+    PrimaryGeneratorAction();    
+    virtual ~PrimaryGeneratorAction();
 
     virtual void GeneratePrimaries(G4Event* );
 

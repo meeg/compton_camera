@@ -23,12 +23,12 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2EventAction.cc 75214 2013-10-29 16:04:42Z gcosmo $
+// $Id: EventAction.cc 75214 2013-10-29 16:04:42Z gcosmo $
 //
-/// \file B2EventAction.cc
-/// \brief Implementation of the B2EventAction class
+/// \file EventAction.cc
+/// \brief Implementation of the EventAction class
 
-#include "B2EventAction.hh"
+#include "EventAction.hh"
 
 #include "G4Event.hh"
 #include "G4EventManager.hh"
@@ -38,23 +38,23 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2EventAction::B2EventAction()
+EventAction::EventAction()
 : G4UserEventAction()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2EventAction::~B2EventAction()
+EventAction::~EventAction()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2EventAction::BeginOfEventAction(const G4Event*)
+void EventAction::BeginOfEventAction(const G4Event*)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2EventAction::EndOfEventAction(const G4Event* event)
+void EventAction::EndOfEventAction(const G4Event* event)
 {
   // get number of stored trajectories
 

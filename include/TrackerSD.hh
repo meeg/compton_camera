@@ -23,17 +23,17 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2TrackerSD.hh 69706 2013-05-13 09:12:40Z gcosmo $
+// $Id: TrackerSD.hh 69706 2013-05-13 09:12:40Z gcosmo $
 //
-/// \file B2TrackerSD.hh
-/// \brief Definition of the B2TrackerSD class
+/// \file TrackerSD.hh
+/// \brief Definition of the TrackerSD class
 
-#ifndef B2TrackerSD_h
-#define B2TrackerSD_h 1
+#ifndef TrackerSD_h
+#define TrackerSD_h 1
 
 #include "G4VSensitiveDetector.hh"
 
-#include "B2TrackerHit.hh"
+#include "TrackerHit.hh"
 
 #include <vector>
 
@@ -42,18 +42,18 @@ class G4HCofThisEvent;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/// B2Tracker sensitive detector class
+/// Tracker sensitive detector class
 ///
 /// The hits are accounted in hits in ProcessHits() function which is called
 /// by Geant4 kernel at each step. A hit is created with each step with non zero 
 /// energy deposit.
 
-class B2TrackerSD : public G4VSensitiveDetector
+class TrackerSD : public G4VSensitiveDetector
 {
   public:
-    B2TrackerSD(const G4String& name, 
+    TrackerSD(const G4String& name, 
                 const G4String& hitsCollectionName);
-    virtual ~B2TrackerSD();
+    virtual ~TrackerSD();
   
     // methods from base class
     virtual void   Initialize(G4HCofThisEvent* hitCollection);
@@ -61,7 +61,7 @@ class B2TrackerSD : public G4VSensitiveDetector
     virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
 
   private:
-    B2TrackerHitsCollection* fHitsCollection;
+    TrackerHitsCollection* fHitsCollection;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

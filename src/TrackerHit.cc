@@ -23,12 +23,12 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2TrackerHit.cc 69706 2013-05-13 09:12:40Z gcosmo $
+// $Id: TrackerHit.cc 69706 2013-05-13 09:12:40Z gcosmo $
 //
-/// \file B2TrackerHit.cc
-/// \brief Implementation of the B2TrackerHit class
+/// \file TrackerHit.cc
+/// \brief Implementation of the TrackerHit class
 
-#include "B2TrackerHit.hh"
+#include "TrackerHit.hh"
 #include "G4UnitsTable.hh"
 #include "G4VVisManager.hh"
 #include "G4Circle.hh"
@@ -37,11 +37,11 @@
 
 #include <iomanip>
 
-G4ThreadLocal G4Allocator<B2TrackerHit>* B2TrackerHitAllocator=0;
+G4ThreadLocal G4Allocator<TrackerHit>* TrackerHitAllocator=0;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::B2TrackerHit()
+TrackerHit::TrackerHit()
  : G4VHit(),
    fTrackID(-1),
    fChamberNb(-1),
@@ -51,11 +51,11 @@ B2TrackerHit::B2TrackerHit()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::~B2TrackerHit() {}
+TrackerHit::~TrackerHit() {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::B2TrackerHit(const B2TrackerHit& right)
+TrackerHit::TrackerHit(const TrackerHit& right)
   : G4VHit()
 {
   fTrackID   = right.fTrackID;
@@ -66,7 +66,7 @@ B2TrackerHit::B2TrackerHit(const B2TrackerHit& right)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-const B2TrackerHit& B2TrackerHit::operator=(const B2TrackerHit& right)
+const TrackerHit& TrackerHit::operator=(const TrackerHit& right)
 {
   fTrackID   = right.fTrackID;
   fChamberNb = right.fChamberNb;
@@ -78,14 +78,14 @@ const B2TrackerHit& B2TrackerHit::operator=(const B2TrackerHit& right)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4int B2TrackerHit::operator==(const B2TrackerHit& right) const
+G4int TrackerHit::operator==(const TrackerHit& right) const
 {
   return ( this == &right ) ? 1 : 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerHit::Draw()
+void TrackerHit::Draw()
 {
   G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
   if(pVVisManager)
@@ -102,7 +102,7 @@ void B2TrackerHit::Draw()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerHit::Print()
+void TrackerHit::Print()
 {
   G4cout
      << "  trackID: " << fTrackID << " chamberNb: " << fChamberNb

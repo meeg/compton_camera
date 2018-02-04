@@ -23,13 +23,13 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2aDetectorConstruction.hh 73722 2013-09-09 10:23:05Z gcosmo $
+// $Id: DetectorConstruction.hh 73722 2013-09-09 10:23:05Z gcosmo $
 //
-/// \file B2aDetectorConstruction.hh
-/// \brief Definition of the B2aDetectorConstruction class
+/// \file DetectorConstruction.hh
+/// \brief Definition of the DetectorConstruction class
 
-#ifndef B2aDetectorConstruction_h
-#define B2aDetectorConstruction_h 1
+#ifndef DetectorConstruction_h
+#define DetectorConstruction_h 1
 
 #include "globals.hh"
 #include "G4VUserDetectorConstruction.hh"
@@ -41,16 +41,16 @@ class G4Material;
 class G4UserLimits;
 class G4GlobalMagFieldMessenger;
 
-class B2aDetectorMessenger;
+class DetectorMessenger;
 
 /// Detector construction class to define materials, geometry
 /// and global uniform magnetic field.
 
-class B2aDetectorConstruction : public G4VUserDetectorConstruction
+class DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    B2aDetectorConstruction();
-    virtual ~B2aDetectorConstruction();
+    DetectorConstruction();
+    virtual ~DetectorConstruction();
 
   public:
     virtual G4VPhysicalVolume* Construct();
@@ -78,7 +78,7 @@ class B2aDetectorConstruction : public G4VUserDetectorConstruction
 
     G4UserLimits* fStepLimit;            // pointer to user step limits
 
-    B2aDetectorMessenger*  fMessenger;   // messenger
+    DetectorMessenger*  fMessenger;   // messenger
 
     static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; 
                                          // magnetic field messenger

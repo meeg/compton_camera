@@ -23,41 +23,41 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2ActionInitialization.cc 68058 2013-03-13 14:47:43Z gcosmo $
+// $Id: ActionInitialization.cc 68058 2013-03-13 14:47:43Z gcosmo $
 //
-/// \file B2ActionInitialization.cc
-/// \brief Implementation of the B2ActionInitialization class
+/// \file ActionInitialization.cc
+/// \brief Implementation of the ActionInitialization class
 
-#include "B2ActionInitialization.hh"
-#include "B2PrimaryGeneratorAction.hh"
-#include "B2RunAction.hh"
-#include "B2EventAction.hh"
+#include "ActionInitialization.hh"
+#include "PrimaryGeneratorAction.hh"
+#include "RunAction.hh"
+#include "EventAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2ActionInitialization::B2ActionInitialization()
+ActionInitialization::ActionInitialization()
  : G4VUserActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2ActionInitialization::~B2ActionInitialization()
+ActionInitialization::~ActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2ActionInitialization::BuildForMaster() const
+void ActionInitialization::BuildForMaster() const
 {
-  SetUserAction(new B2RunAction);
+  SetUserAction(new RunAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2ActionInitialization::Build() const
+void ActionInitialization::Build() const
 {
-  SetUserAction(new B2PrimaryGeneratorAction);
-  SetUserAction(new B2RunAction);
-  SetUserAction(new B2EventAction);
+  SetUserAction(new PrimaryGeneratorAction);
+  SetUserAction(new RunAction);
+  SetUserAction(new EventAction);
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

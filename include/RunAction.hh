@@ -23,13 +23,13 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2RunAction.hh 68058 2013-03-13 14:47:43Z gcosmo $
+// $Id: RunAction.hh 68058 2013-03-13 14:47:43Z gcosmo $
 //
-/// \file B2RunAction.hh
-/// \brief Definition of the B2RunAction class
+/// \file RunAction.hh
+/// \brief Definition of the RunAction class
 
-#ifndef B2RunAction_h
-#define B2RunAction_h 1
+#ifndef RunAction_h
+#define RunAction_h 1
 
 #include "G4UserRunAction.hh"
 #include "globals.hh"
@@ -40,11 +40,11 @@ class G4Run;
 
 /// Run action class
 
-class B2RunAction : public G4UserRunAction
+class RunAction : public G4UserRunAction
 {
   public:
-    B2RunAction();
-    virtual ~B2RunAction();
+    RunAction();
+    virtual ~RunAction();
 
     virtual void BeginOfRunAction(const G4Run* run);
     virtual void   EndOfRunAction(const G4Run* run);

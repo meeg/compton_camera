@@ -23,14 +23,14 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2aDetectorConstruction.cc 87359 2014-12-01 16:04:27Z gcosmo $
+// $Id: DetectorConstruction.cc 87359 2014-12-01 16:04:27Z gcosmo $
 //
-/// \file B2aDetectorConstruction.cc
-/// \brief Implementation of the B2aDetectorConstruction class
+/// \file DetectorConstruction.cc
+/// \brief Implementation of the DetectorConstruction class
  
-#include "B2aDetectorConstruction.hh"
-#include "B2aDetectorMessenger.hh"
-#include "B2TrackerSD.hh"
+#include "DetectorConstruction.hh"
+#include "DetectorMessenger.hh"
+#include "TrackerSD.hh"
 
 #include "G4Material.hh"
 #include "G4NistManager.hh"
@@ -55,9 +55,9 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
 G4ThreadLocal 
-G4GlobalMagFieldMessenger* B2aDetectorConstruction::fMagFieldMessenger = 0;
+G4GlobalMagFieldMessenger* DetectorConstruction::fMagFieldMessenger = 0;
 
-B2aDetectorConstruction::B2aDetectorConstruction()
+DetectorConstruction::DetectorConstruction()
 :G4VUserDetectorConstruction(), 
  fNbOfChambers(0),
  fLogicTarget(NULL), fLogicChamber(NULL), 
@@ -65,7 +65,7 @@ B2aDetectorConstruction::B2aDetectorConstruction()
  fStepLimit(NULL),
  fCheckOverlaps(true)
 {
-  fMessenger = new B2aDetectorMessenger(this);
+  fMessenger = new DetectorMessenger(this);
 
   fNbOfChambers = 5;
   fLogicChamber = new G4LogicalVolume*[fNbOfChambers];
@@ -73,7 +73,7 @@ B2aDetectorConstruction::B2aDetectorConstruction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-B2aDetectorConstruction::~B2aDetectorConstruction()
+DetectorConstruction::~DetectorConstruction()
 {
   delete [] fLogicChamber; 
   delete fStepLimit;
@@ -82,7 +82,7 @@ B2aDetectorConstruction::~B2aDetectorConstruction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-G4VPhysicalVolume* B2aDetectorConstruction::Construct()
+G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   // Define materials
   DefineMaterials();
@@ -93,7 +93,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::Construct()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::DefineMaterials()
+void DetectorConstruction::DefineMaterials()
 {
   // Material definition 
 
@@ -114,7 +114,7 @@ void B2aDetectorConstruction::DefineMaterials()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
+G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 {
   G4Material* air  = G4Material::GetMaterial("G4_AIR");
 
@@ -231,7 +231,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
   if( fNbOfChambers > 0 ){
     rmaxIncr =  0.5 * (lastLength-firstLength)/(fNbOfChambers-1);
     if (chamberSpacing  < chamberWidth) {
-       G4Exception("B2aDetectorConstruction::DefineVolumes()",
+       G4Exception("DetectorConstruction::DefineVolumes()",
                    "InvalidSetup", FatalException,
                    "Width>Spacing");
     }
@@ -287,12 +287,12 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-void B2aDetectorConstruction::ConstructSDandField()
+void DetectorConstruction::ConstructSDandField()
 {
   // Sensitive detectors
 
-  G4String trackerChamberSDname = "B2/TrackerChamberSD";
-  B2TrackerSD* aTrackerSD = new B2TrackerSD(trackerChamberSDname,
+  G4String trackerChamberSDname = "TrackerChamberSD";
+  TrackerSD* aTrackerSD = new TrackerSD(trackerChamberSDname,
                                             "TrackerHitsCollection");
   // Setting aTrackerSD to all logical volumes with the same name 
   // of "Chamber_LV".
@@ -311,7 +311,7 @@ void B2aDetectorConstruction::ConstructSDandField()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-void B2aDetectorConstruction::SetTargetMaterial(G4String materialName)
+void DetectorConstruction::SetTargetMaterial(G4String materialName)
 {
   G4NistManager* nistManager = G4NistManager::Instance();
 
@@ -336,7 +336,7 @@ void B2aDetectorConstruction::SetTargetMaterial(G4String materialName)
  
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetChamberMaterial(G4String materialName)
+void DetectorConstruction::SetChamberMaterial(G4String materialName)
 {
   G4NistManager* nistManager = G4NistManager::Instance();
 
@@ -364,14 +364,14 @@ void B2aDetectorConstruction::SetChamberMaterial(G4String materialName)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetMaxStep(G4double maxStep)
+void DetectorConstruction::SetMaxStep(G4double maxStep)
 {
   if ((fStepLimit)&&(maxStep>0.)) fStepLimit->SetMaxAllowedStep(maxStep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
+void DetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
 {
   fCheckOverlaps = checkOverlaps;
 }  

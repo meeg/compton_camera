@@ -23,13 +23,13 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: exampleB2a.cc 86065 2014-11-07 08:51:15Z gcosmo $
+// $Id: example.cc 86065 2014-11-07 08:51:15Z gcosmo $
 //
-/// \file exampleB2a.cc
-/// \brief Main program of the B2a example
+/// \file example.cc
+/// \brief Main program of the  example
 
-#include "B2aDetectorConstruction.hh"
-#include "B2ActionInitialization.hh"
+#include "DetectorConstruction.hh"
+#include "ActionInitialization.hh"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
@@ -70,14 +70,14 @@ int main(int argc,char** argv)
 
   // Set mandatory initialization classes
   //
-  runManager->SetUserInitialization(new B2aDetectorConstruction());
+  runManager->SetUserInitialization(new DetectorConstruction());
 
   G4VModularPhysicsList* physicsList = new FTFP_BERT;
   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   runManager->SetUserInitialization(physicsList);
     
   // Set user action classes
-  runManager->SetUserInitialization(new B2ActionInitialization());
+  runManager->SetUserInitialization(new ActionInitialization());
   
   // Initialize visualization
   //

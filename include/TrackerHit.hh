@@ -23,13 +23,13 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2TrackerHit.hh 69706 2013-05-13 09:12:40Z gcosmo $
+// $Id: TrackerHit.hh 69706 2013-05-13 09:12:40Z gcosmo $
 //
-/// \file B2TrackerHit.hh
-/// \brief Definition of the B2TrackerHit class
+/// \file TrackerHit.hh
+/// \brief Definition of the TrackerHit class
 
-#ifndef B2TrackerHit_h
-#define B2TrackerHit_h 1
+#ifndef TrackerHit_h
+#define TrackerHit_h 1
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -43,16 +43,16 @@
 /// and position of charged particles in a selected volume:
 /// - fTrackID, fChamberNB, fEdep, fPos
 
-class B2TrackerHit : public G4VHit
+class TrackerHit : public G4VHit
 {
   public:
-    B2TrackerHit();
-    B2TrackerHit(const B2TrackerHit&);
-    virtual ~B2TrackerHit();
+    TrackerHit();
+    TrackerHit(const TrackerHit&);
+    virtual ~TrackerHit();
 
     // operators
-    const B2TrackerHit& operator=(const B2TrackerHit&);
-    G4int operator==(const B2TrackerHit&) const;
+    const TrackerHit& operator=(const TrackerHit&);
+    G4int operator==(const TrackerHit&) const;
 
     inline void* operator new(size_t);
     inline void  operator delete(void*);
@@ -83,24 +83,24 @@ class B2TrackerHit : public G4VHit
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-typedef G4THitsCollection<B2TrackerHit> B2TrackerHitsCollection;
+typedef G4THitsCollection<TrackerHit> TrackerHitsCollection;
 
-extern G4ThreadLocal G4Allocator<B2TrackerHit>* B2TrackerHitAllocator;
+extern G4ThreadLocal G4Allocator<TrackerHit>* TrackerHitAllocator;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-inline void* B2TrackerHit::operator new(size_t)
+inline void* TrackerHit::operator new(size_t)
 {
-  if(!B2TrackerHitAllocator)
-      B2TrackerHitAllocator = new G4Allocator<B2TrackerHit>;
-  return (void *) B2TrackerHitAllocator->MallocSingle();
+  if(!TrackerHitAllocator)
+      TrackerHitAllocator = new G4Allocator<TrackerHit>;
+  return (void *) TrackerHitAllocator->MallocSingle();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-inline void B2TrackerHit::operator delete(void *hit)
+inline void TrackerHit::operator delete(void *hit)
 {
-  B2TrackerHitAllocator->FreeSingle((B2TrackerHit*) hit);
+  TrackerHitAllocator->FreeSingle((TrackerHit*) hit);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

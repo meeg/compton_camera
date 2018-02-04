@@ -23,41 +23,41 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2aDetectorMessenger.hh 69706 2013-05-13 09:12:40Z gcosmo $
+// $Id: DetectorMessenger.hh 69706 2013-05-13 09:12:40Z gcosmo $
 //
-/// \file B2aDetectorMessenger.hh
-/// \brief Definition of the B2aDetectorMessenger class
+/// \file DetectorMessenger.hh
+/// \brief Definition of the DetectorMessenger class
 
-#ifndef B2aDetectorMessenger_h
-#define B2aDetectorMessenger_h 1
+#ifndef DetectorMessenger_h
+#define DetectorMessenger_h 1
 
 #include "globals.hh"
 #include "G4UImessenger.hh"
 
-class B2aDetectorConstruction;
+class DetectorConstruction;
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithADoubleAndUnit;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/// Messenger class that defines commands for B2aDetectorConstruction.
+/// Messenger class that defines commands for DetectorConstruction.
 ///
 /// It implements commands:
 /// - /B2/det/setTargetMaterial name
 /// - /B2/det/setChamberMaterial name
 /// - /B2/det/stepMax value unit
 
-class B2aDetectorMessenger: public G4UImessenger
+class DetectorMessenger: public G4UImessenger
 {
   public:
-    B2aDetectorMessenger(B2aDetectorConstruction* );
-    virtual ~B2aDetectorMessenger();
+    DetectorMessenger(DetectorConstruction* );
+    virtual ~DetectorMessenger();
     
     virtual void SetNewValue(G4UIcommand*, G4String);
     
   private:
-    B2aDetectorConstruction*  fDetectorConstruction;
+    DetectorConstruction*  fDetectorConstruction;
 
     G4UIdirectory*           fB2Directory;
     G4UIdirectory*           fDetDirectory;

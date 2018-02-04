@@ -23,13 +23,13 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B2aDetectorMessenger.cc 69706 2013-05-13 09:12:40Z gcosmo $
+// $Id: DetectorMessenger.cc 69706 2013-05-13 09:12:40Z gcosmo $
 // 
-/// \file B2aDetectorMessenger.cc
-/// \brief Implementation of the B2aDetectorMessenger class
+/// \file DetectorMessenger.cc
+/// \brief Implementation of the DetectorMessenger class
 
-#include "B2aDetectorMessenger.hh"
-#include "B2aDetectorConstruction.hh"
+#include "DetectorMessenger.hh"
+#include "DetectorConstruction.hh"
 
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
@@ -37,7 +37,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2aDetectorMessenger::B2aDetectorMessenger(B2aDetectorConstruction* Det)
+DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
  : G4UImessenger(),
    fDetectorConstruction(Det)
 {
@@ -66,7 +66,7 @@ B2aDetectorMessenger::B2aDetectorMessenger(B2aDetectorConstruction* Det)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2aDetectorMessenger::~B2aDetectorMessenger()
+DetectorMessenger::~DetectorMessenger()
 {
   delete fTargMatCmd;
   delete fChamMatCmd;
@@ -77,7 +77,7 @@ B2aDetectorMessenger::~B2aDetectorMessenger()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
+void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 {
   if( command == fTargMatCmd )
    { fDetectorConstruction->SetTargetMaterial(newValue);}
