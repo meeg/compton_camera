@@ -61,6 +61,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void SetChamberMaterial(G4String );
     void SetMaxStep (G4double );
     void SetCheckOverlaps(G4bool );
+    int GetNbOfChambers() const     { return fNbOfChambers; }; 
 
   private:
     // methods

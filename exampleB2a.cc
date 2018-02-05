@@ -68,16 +68,17 @@ int main(int argc,char** argv)
   G4RunManager* runManager = new G4RunManager;
 #endif
 
+  DetectorConstruction *detector = new DetectorConstruction();
   // Set mandatory initialization classes
   //
-  runManager->SetUserInitialization(new DetectorConstruction());
+  runManager->SetUserInitialization(detector);
 
   G4VModularPhysicsList* physicsList = new FTFP_BERT;
   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   runManager->SetUserInitialization(physicsList);
     
   // Set user action classes
-  runManager->SetUserInitialization(new ActionInitialization());
+  runManager->SetUserInitialization(new ActionInitialization(detector));
   
   // Initialize visualization
   //

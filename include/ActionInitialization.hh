@@ -33,7 +33,7 @@
 
 #include "G4VUserActionInitialization.hh"
 
-class B4DetectorConstruction;
+class DetectorConstruction;
 
 /// Action initialization class.
 ///
@@ -41,11 +41,13 @@ class B4DetectorConstruction;
 class ActionInitialization : public G4VUserActionInitialization
 {
   public:
-    ActionInitialization();
+    ActionInitialization(DetectorConstruction* detector);
     virtual ~ActionInitialization();
 
     virtual void BuildForMaster() const;
     virtual void Build() const;
+  private:
+    DetectorConstruction *fDetector;
 };
 
 #endif

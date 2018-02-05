@@ -29,6 +29,7 @@
 /// \brief Implementation of the EventAction class
 
 #include "EventAction.hh"
+#include "TrackerHit.hh"
 
 #include "G4Event.hh"
 #include "G4EventManager.hh"
@@ -36,11 +37,13 @@
 #include "G4Trajectory.hh"
 #include "G4ios.hh"
 
+#include <unordered_map>
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EventAction::EventAction()
+EventAction::EventAction(DetectorConstruction* detector)
 : G4UserEventAction()
-{}
+{fDetector = detector;}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -75,6 +78,52 @@ void EventAction::EndOfEventAction(const G4Event* event)
     G4cout << "    "  
            << hc->GetSize() << " hits stored in this event" << G4endl;
   }
+
+  G4VHitsCollection* hc = event->GetHCofThisEvent()->GetHC(0);
+
+  std::unordered_map<G4int,std::vector<TrackerHit*>*> **hit_map_array = new std::unordered_map<G4int,std::vector<TrackerHit*>*>*[fDetector->GetNbOfChambers()];
+  for (int i=0; i<fDetector->GetNbOfChambers(); i++) {
+      hit_map_array[i] = new std::unordered_map<G4int,std::vector<TrackerHit*>*>;
+  }
+  for (int i=0;i<hc->GetSize();i++) {
+      TrackerHit *hit = (TrackerHit*)hc->GetHit(i);
+      std::unordered_map<G4int,std::vector<TrackerHit*>*> *hit_map = hit_map_array[hit->GetChamberNb()];
+      std::vector<TrackerHit*> *hit_vector;
+      if (hit_map->find(hit->GetTrackID()) != hit_map->end()) {
+          hit_vector = hit_map->find(hit->GetTrackID())->second;
+      } else {
+          hit_vector = new std::vector<TrackerHit*>();
+          hit_map->emplace(hit->GetTrackID(),hit_vector);
+      }
+      hit_vector->push_back(hit);
+  }
+
+  for (int i=0; i<fDetector->GetNbOfChambers(); i++) {
+      for (std::unordered_map<G4int,std::vector<TrackerHit*>*>::iterator it(hit_map_array[i]->begin());it != hit_map_array[i]->end(); it++) {
+          std::vector<TrackerHit*>* hit_vector = it->second;
+          G4int trackID = hit_vector->front()->GetTrackID();
+          G4int chamberNb = hit_vector->front()->GetChamberNb();
+          G4double edep = 0.0;
+          G4ThreeVector weightedPos = G4ThreeVector(0.0,0.0,0.0);
+          for (std::vector<TrackerHit*>::iterator hit_it(hit_vector->begin()); hit_it!=hit_vector->end(); hit_it++) {
+              edep += (*hit_it)->GetEdep();
+              weightedPos += ((*hit_it)->GetEdep()) * ((*hit_it)->GetPos());
+          }
+          TrackerHit *combinedHit = new TrackerHit();
+          combinedHit->SetTrackID(trackID);
+          combinedHit->SetChamberNb(chamberNb);
+          combinedHit->SetEdep(edep);
+          combinedHit->SetPos(weightedPos/edep);
+
+          combinedHit->Print();
+      }
+  }
+
+  for (int i=0; i<fDetector->GetNbOfChambers(); i++) {
+      for (std::unordered_map<G4int,std::vector<TrackerHit*>*>::iterator it(hit_map_array[i]->begin());it != hit_map_array[i]->end(); it++) delete (it->second);
+      delete hit_map_array[i];
+  }
+  delete hit_map_array;
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

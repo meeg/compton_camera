@@ -29,6 +29,7 @@
 /// \brief Implementation of the RunAction class
 
 #include "RunAction.hh"
+#include "Analysis.hh"
 
 #include "G4Run.hh"
 #include "G4RunManager.hh"
@@ -40,6 +41,34 @@ RunAction::RunAction()
 { 
   // set printing event number per each 100 events
   G4RunManager::GetRunManager()->SetPrintProgress(1000);     
+
+  // Create analysis manager
+  // The choice of analysis technology is done via selectin of a namespace
+  // in Analysis.hh
+  auto analysisManager = G4AnalysisManager::Instance();
+  G4cout << "Using " << analysisManager->GetType() << G4endl;
+
+  // Create directories 
+  //analysisManager->SetHistoDirectoryName("histograms");
+  //analysisManager->SetNtupleDirectoryName("ntuple");
+  analysisManager->SetVerboseLevel(1);
+  //analysisManager->SetNtupleMerging(true); //comment out, doesn't work with geant4.10.02.p02
+    // Note: merging ntuples is available only with Root output
+
+  // Creating ntuple
+  //
+  analysisManager->CreateNtuple("B2", "Compton camera");
+  /*
+  analysisManager->CreateNtupleDColumn("Eclad");
+  analysisManager->CreateNtupleDColumn("Ecore");
+  analysisManager->CreateNtupleDColumn("Zclad");
+  analysisManager->CreateNtupleDColumn("Zcore");
+  analysisManager->CreateNtupleDColumn("EcladVec",eventAction->GetCladEdepVec());
+  analysisManager->CreateNtupleDColumn("EcoreVec",eventAction->GetCoreEdepVec());
+  analysisManager->CreateNtupleDColumn("ZcladVec",eventAction->GetCladZVec());
+  analysisManager->CreateNtupleDColumn("ZcoreVec",eventAction->GetCoreZVec());
+  */
+  analysisManager->FinishNtuple();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -53,11 +82,25 @@ void RunAction::BeginOfRunAction(const G4Run*)
 { 
   //inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+
+  // Get analysis manager
+  auto analysisManager = G4AnalysisManager::Instance();
+
+  // Open an output file
+  //
+  G4String fileName = "B4";
+  analysisManager->OpenFile(fileName);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::EndOfRunAction(const G4Run* )
-{}
+{
+  // save histograms & ntuple
+  //
+  auto analysisManager = G4AnalysisManager::Instance();
+  analysisManager->Write();
+  analysisManager->CloseFile();
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
