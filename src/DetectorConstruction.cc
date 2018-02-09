@@ -35,7 +35,11 @@
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 
+#include "G4TwoVector.hh"
+
 #include "G4Box.hh"
+#include "G4ExtrudedSolid.hh"
+#include "G4SubtractionSolid.hh"
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
@@ -114,6 +118,9 @@ void DetectorConstruction::DefineMaterials()
   //polystyrene for scintillators
   nistManager->FindOrBuildMaterial("G4_POLYSTYRENE");
 
+  //iron collimator
+  nistManager->FindOrBuildMaterial("G4_Fe");
+
   // Print materials
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
@@ -176,6 +183,27 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
          //<< "The distance between chamber is " << chamberSpacing/cm << " cm" 
          //<< G4endl;
   
+  G4Box* collimatorBox = new G4Box("collimatorBox",5*cm,5*cm,2.5*mm);
+
+
+  std::vector<G4TwoVector> polygon;//"L"
+  //height 6.2 mm
+  //width 2.9 mm
+  //line width 0.6 mm
+  //thickness 5.0 mm
+  polygon.push_back(G4TwoVector(0.0*mm,0.0*mm));//bottom left
+  polygon.push_back(G4TwoVector(6.2*mm,0.0*mm));//top left
+  polygon.push_back(G4TwoVector(6.2*mm,0.6*mm));//top right
+  polygon.push_back(G4TwoVector(0.6*mm,0.6*mm));//inside corner
+  polygon.push_back(G4TwoVector(0.6*mm,2.9*mm));//top right
+  polygon.push_back(G4TwoVector(0.0*mm,2.9*mm));//bottom right
+  G4TwoVector offset = G4TwoVector(0,0);
+
+  G4ExtrudedSolid* cutout = new G4ExtrudedSolid("cutout_L", polygon, 5*mm, offset, 1.0, offset, 1.0);
+
+  G4SubtractionSolid* collimatorS = new G4SubtractionSolid("collimator",collimatorBox,cutout);
+  G4LogicalVolume* collimatorLV = new G4LogicalVolume(collimatorS, G4Material::GetMaterial("G4_Fe"), "collimator");
+  G4VPhysicalVolume* collimatorPV = new G4PVPlacement(0, G4ThreeVector(0,0,-1*cm), collimatorLV, "collimator", worldLV, false, 0, fCheckOverlaps);
 
   G4double *lengthX = new G4double[fNbOfChambers];
   G4double *lengthY = new G4double[fNbOfChambers];
