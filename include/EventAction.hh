@@ -46,8 +46,19 @@ class EventAction : public G4UserEventAction
 
     virtual void  BeginOfEventAction(const G4Event* );
     virtual void    EndOfEventAction(const G4Event* );
+    std::vector<G4int>& GetChamberNbVec() { return fChamberNbVec; }
+    std::vector<G4double>& GetEdepVec() { return fEdepVec; }
+    std::vector<G4double>& GetPosXVec() { return fPosXVec; }
+    std::vector<G4double>& GetPosYVec() { return fPosYVec; }
+    std::vector<G4double>& GetPosZVec() { return fPosZVec; }
   private:
     DetectorConstruction* fDetector;
+
+    std::vector<G4int>  fChamberNbVec;
+    std::vector<G4double>  fEdepVec;
+    std::vector<G4double>  fPosXVec;
+    std::vector<G4double>  fPosYVec;
+    std::vector<G4double>  fPosZVec;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

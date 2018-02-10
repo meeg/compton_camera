@@ -30,6 +30,7 @@
 
 #include "RunAction.hh"
 #include "Analysis.hh"
+#include "EventAction.hh"
 
 #include "G4Run.hh"
 #include "G4RunManager.hh"
@@ -55,19 +56,21 @@ RunAction::RunAction()
   //analysisManager->SetNtupleMerging(true); //comment out, doesn't work with geant4.10.02.p02
     // Note: merging ntuples is available only with Root output
 
+  const EventAction* constEventAction
+        = static_cast<const EventAction*>(G4RunManager::GetRunManager()
+                      ->GetUserEventAction());
+  EventAction* eventAction
+          = const_cast<EventAction*>(constEventAction);
+
   // Creating ntuple
   //
-  analysisManager->CreateNtuple("B2", "Compton camera");
-  /*
-  analysisManager->CreateNtupleDColumn("Eclad");
-  analysisManager->CreateNtupleDColumn("Ecore");
-  analysisManager->CreateNtupleDColumn("Zclad");
-  analysisManager->CreateNtupleDColumn("Zcore");
-  analysisManager->CreateNtupleDColumn("EcladVec",eventAction->GetCladEdepVec());
-  analysisManager->CreateNtupleDColumn("EcoreVec",eventAction->GetCoreEdepVec());
-  analysisManager->CreateNtupleDColumn("ZcladVec",eventAction->GetCladZVec());
-  analysisManager->CreateNtupleDColumn("ZcoreVec",eventAction->GetCoreZVec());
-  */
+  analysisManager->CreateNtuple("B4", "Compton camera");
+  analysisManager->CreateNtupleIColumn("nhits");
+  analysisManager->CreateNtupleIColumn("chamberNbVec",eventAction->GetChamberNbVec());
+  analysisManager->CreateNtupleDColumn("edepVec",eventAction->GetEdepVec());
+  analysisManager->CreateNtupleDColumn("posXVec",eventAction->GetPosXVec());
+  analysisManager->CreateNtupleDColumn("posYVec",eventAction->GetPosYVec());
+  analysisManager->CreateNtupleDColumn("posZVec",eventAction->GetPosZVec());
   analysisManager->FinishNtuple();
 }
 
@@ -90,6 +93,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
   //
   G4String fileName = "B4";
   analysisManager->OpenFile(fileName);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

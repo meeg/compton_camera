@@ -197,7 +197,7 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
   polygon.push_back(G4TwoVector(0.6*mm,0.6*mm));//inside corner
   polygon.push_back(G4TwoVector(0.6*mm,2.9*mm));//top right
   polygon.push_back(G4TwoVector(0.0*mm,2.9*mm));//bottom right
-  G4TwoVector offset = G4TwoVector(0,0);
+  G4TwoVector offset = G4TwoVector(-3.1*mm,-1.4*mm);
 
   G4ExtrudedSolid* cutout = new G4ExtrudedSolid("cutout_L", polygon, 5*mm, offset, 1.0, offset, 1.0);
 

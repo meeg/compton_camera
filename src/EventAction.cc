@@ -36,6 +36,7 @@
 #include "G4TrajectoryContainer.hh"
 #include "G4Trajectory.hh"
 #include "G4ios.hh"
+#include "Analysis.hh"
 
 #include <unordered_map>
 
@@ -98,6 +99,14 @@ void EventAction::EndOfEventAction(const G4Event* event)
       hit_vector->push_back(hit);
   }
 
+  fChamberNbVec.clear();
+  fEdepVec.clear();
+  fPosXVec.clear();
+  fPosYVec.clear();
+  fPosZVec.clear();
+
+  int nhits = 0;
+
   for (int i=0; i<fDetector->GetNbOfChambers(); i++) {
       for (std::unordered_map<G4int,std::vector<TrackerHit*>*>::iterator it(hit_map_array[i]->begin());it != hit_map_array[i]->end(); it++) {
           std::vector<TrackerHit*>* hit_vector = it->second;
@@ -115,9 +124,21 @@ void EventAction::EndOfEventAction(const G4Event* event)
           combinedHit->SetEdep(edep);
           combinedHit->SetPos(weightedPos/edep);
 
+          nhits++;
+          fChamberNbVec.push_back(chamberNb);
+          fEdepVec.push_back(edep);
+          fPosXVec.push_back(weightedPos.x()/edep);
+          fPosYVec.push_back(weightedPos.y()/edep);
+          fPosZVec.push_back(weightedPos.z()/edep);
+
           combinedHit->Print();
       }
   }
+  auto analysisManager = G4AnalysisManager::Instance();
+  //printf("%d\n",analysisManager->GetNofNtuples());
+  //printf("%d\n",analysisManager->GetFirstNtupleColumnId());
+  analysisManager->FillNtupleIColumn(0, nhits);
+  analysisManager->AddNtupleRow();
 
   for (int i=0; i<fDetector->GetNbOfChambers(); i++) {
       for (std::unordered_map<G4int,std::vector<TrackerHit*>*>::iterator it(hit_map_array[i]->begin());it != hit_map_array[i]->end(); it++) delete (it->second);
