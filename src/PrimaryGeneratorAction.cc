@@ -34,7 +34,8 @@
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
 #include "G4Event.hh"
-#include "G4ParticleGun.hh"
+//#include "G4ParticleGun.hh"
+#include "G4GeneralParticleSource.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
@@ -47,23 +48,23 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
  : G4VUserPrimaryGeneratorAction()
 {
   G4int nofParticles = 1;
-  fParticleGun = new G4ParticleGun(nofParticles);
+  fParticleSource = new G4GeneralParticleSource();
 
   // default particle kinematic
 
   G4ParticleDefinition* particleDefinition 
     = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
 
-  fParticleGun->SetParticleDefinition(particleDefinition);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(60.0*keV);
+  fParticleSource->SetParticleDefinition(particleDefinition);
+  //fParticleSource->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  //fParticleSource->SetParticleEnergy(60.0*keV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
-  delete fParticleGun;
+  delete fParticleSource;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -88,9 +89,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     G4cerr << "The gun will be place in the center." << G4endl;
   }
 
-  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
+  fParticleSource->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
 
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+  fParticleSource->GeneratePrimaryVertex(anEvent);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

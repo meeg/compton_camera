@@ -68,8 +68,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 
   // periodic printing
 
+  /*
   G4int eventID = event->GetEventID();
-  if ( eventID < 100 || eventID % 100 == 0) {
+  if ( eventID < 1000 || eventID % 1000 == 0) {
     G4cout << ">>> Event: " << eventID  << G4endl;
     if ( trajectoryContainer ) {
       G4cout << "    " << n_trajectories
@@ -79,9 +80,11 @@ void EventAction::EndOfEventAction(const G4Event* event)
     G4cout << "    "  
            << hc->GetSize() << " hits stored in this event" << G4endl;
   }
+  */
 
   G4VHitsCollection* hc = event->GetHCofThisEvent()->GetHC(0);
 
+  //sum hits
   std::unordered_map<G4int,std::vector<TrackerHit*>*> **hit_map_array = new std::unordered_map<G4int,std::vector<TrackerHit*>*>*[fDetector->GetNbOfChambers()];
   for (int i=0; i<fDetector->GetNbOfChambers(); i++) {
       hit_map_array[i] = new std::unordered_map<G4int,std::vector<TrackerHit*>*>;
@@ -134,11 +137,13 @@ void EventAction::EndOfEventAction(const G4Event* event)
           combinedHit->Print();
       }
   }
+  if (nhits>0) {
   auto analysisManager = G4AnalysisManager::Instance();
   //printf("%d\n",analysisManager->GetNofNtuples());
   //printf("%d\n",analysisManager->GetFirstNtupleColumnId());
   analysisManager->FillNtupleIColumn(0, nhits);
   analysisManager->AddNtupleRow();
+  }
 
   for (int i=0; i<fDetector->GetNbOfChambers(); i++) {
       for (std::unordered_map<G4int,std::vector<TrackerHit*>*>::iterator it(hit_map_array[i]->begin());it != hit_map_array[i]->end(); it++) delete (it->second);

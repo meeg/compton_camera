@@ -134,6 +134,7 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
   // Sizes of the principal geometrical components (solids)
   
   G4double worldLength = 20*cm;
+  G4double collimatorThickness = 5*mm;
 
   // Definitions of Solids, Logical Volumes, Physical Volumes
 
@@ -183,7 +184,7 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
          //<< "The distance between chamber is " << chamberSpacing/cm << " cm" 
          //<< G4endl;
   
-  G4Box* collimatorBox = new G4Box("collimatorBox",5*cm,5*cm,2.5*mm);
+  G4Box* collimatorBox = new G4Box("collimatorBox",5*cm,5*cm,0.5*collimatorThickness);
 
 
   std::vector<G4TwoVector> polygon;//"L"
@@ -192,18 +193,18 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
   //line width 0.6 mm
   //thickness 5.0 mm
   polygon.push_back(G4TwoVector(0.0*mm,0.0*mm));//bottom left
-  polygon.push_back(G4TwoVector(6.2*mm,0.0*mm));//top left
-  polygon.push_back(G4TwoVector(6.2*mm,0.6*mm));//top right
+  polygon.push_back(G4TwoVector(0.0*mm,6.2*mm));//top left
+  polygon.push_back(G4TwoVector(0.6*mm,6.2*mm));//top right
   polygon.push_back(G4TwoVector(0.6*mm,0.6*mm));//inside corner
-  polygon.push_back(G4TwoVector(0.6*mm,2.9*mm));//top right
-  polygon.push_back(G4TwoVector(0.0*mm,2.9*mm));//bottom right
-  G4TwoVector offset = G4TwoVector(-3.1*mm,-1.4*mm);
+  polygon.push_back(G4TwoVector(2.9*mm,0.6*mm));//top right
+  polygon.push_back(G4TwoVector(2.9*mm,0.0*mm));//bottom right
+  G4TwoVector offset = G4TwoVector(-1.4*mm,-3.1*mm);
 
-  G4ExtrudedSolid* cutout = new G4ExtrudedSolid("cutout_L", polygon, 5*mm, offset, 1.0, offset, 1.0);
+  G4ExtrudedSolid* cutout = new G4ExtrudedSolid("cutout_L", polygon, collimatorThickness, offset, 1.0, offset, 1.0); //half-length equals the thickness so the cutout is longer than the collimator (avoids shared surfaces)
 
   G4SubtractionSolid* collimatorS = new G4SubtractionSolid("collimator",collimatorBox,cutout);
   G4LogicalVolume* collimatorLV = new G4LogicalVolume(collimatorS, G4Material::GetMaterial("G4_Fe"), "collimator");
-  G4VPhysicalVolume* collimatorPV = new G4PVPlacement(0, G4ThreeVector(0,0,-1*cm), collimatorLV, "collimator", worldLV, false, 0, fCheckOverlaps);
+  G4VPhysicalVolume* collimatorPV = new G4PVPlacement(0, G4ThreeVector(0,0,0.5*collimatorThickness), collimatorLV, "collimator", worldLV, false, 0, fCheckOverlaps);
 
   G4double *lengthX = new G4double[fNbOfChambers];
   G4double *lengthY = new G4double[fNbOfChambers];
@@ -215,7 +216,7 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
       lengthX[copyNo] = 3.0*cm;
       lengthY[copyNo] = 1.5*cm;
       lengthZ[copyNo] = 0.050*mm;
-      chamberZ[copyNo] = (1+copyNo)*cm;
+      chamberZ[copyNo] = collimatorThickness + 0.5*cm + (copyNo)*0.2*cm;
       chamberMaterial[copyNo] = G4Material::GetMaterial("G4_Si");
   }
 

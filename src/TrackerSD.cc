@@ -83,6 +83,7 @@ G4bool TrackerSD::ProcessHits(G4Step* aStep,
                                                ->GetCopyNumber());
   newHit->SetEdep(edep);
   newHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
+  //printf("%s\n",aStep->GetTrack()->GetParticleDefinition()->GetParticleName().data());
 
   fHitsCollection->insert( newHit );
 
