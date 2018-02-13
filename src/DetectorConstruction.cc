@@ -216,7 +216,7 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
       lengthX[copyNo] = 3.0*cm;
       lengthY[copyNo] = 1.5*cm;
       lengthZ[copyNo] = 0.050*mm;
-      chamberZ[copyNo] = collimatorThickness + 0.5*cm + (copyNo)*0.2*cm;
+      chamberZ[copyNo] = collimatorThickness + 2*cm + (copyNo)*0.25*cm;
       chamberMaterial[copyNo] = G4Material::GetMaterial("G4_Si");
   }
 
