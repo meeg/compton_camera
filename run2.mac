@@ -6,14 +6,8 @@
 #/run/numberOfWorkers 4
 /run/initialize
 /run/printProgress 1000
-#/gps/ene/mono 10 keV
-/gps/ene/mono 60 keV
-/gps/position 0 0 -0.1 cm
-/gps/pos/type Plane
-/gps/pos/shape Circle
-/gps/pos/radius 0.5 cm
-/gps/direction 0 0 1
-/gps/ang/type cos
-#/gps/ang/type planar
+
+# Initialize particle source
+/control/execute init_source.mac
 
 /run/beamOn 100000000

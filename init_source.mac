@@ -1,0 +1,10 @@
+# Macro file for the initialization of example B2 
+#/gps/ene/mono 10 keV
+/gps/ene/mono 60 keV
+/gps/position 0 0 -2 cm
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/radius 1 mm
+/gps/direction 0 0 1
+/gps/ang/type cos
+#/gps/ang/type planar

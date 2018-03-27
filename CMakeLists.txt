@@ -50,6 +50,7 @@ set(EXAMPLEB2A_SCRIPTS
   run1.mac
   run2.mac
   init_vis.mac
+  init_source.mac
   vis.mac
   )
 

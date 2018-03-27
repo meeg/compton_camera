@@ -11,15 +11,8 @@
 #
 # Initialize kernel
 /run/initialize
-#/gps/ene/mono 10 keV
-/gps/ene/mono 60 keV
-/gps/position 0 0 -1 cm
-/gps/pos/type Plane
-/gps/pos/shape Circle
-/gps/pos/radius 1 mm
-/gps/direction 0 0 1
-/gps/ang/type cos
-#/gps/ang/type planar
+# Initialize particle source
+/control/execute init_source.mac
 #
 # Visualization setting
 /control/execute vis.mac
