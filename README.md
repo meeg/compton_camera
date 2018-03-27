@@ -1,4 +1,4 @@
-#setup, build, and run simulation
+# setup, build, and run simulation
 Requires Geant4 and ROOT. I use Geant4 10.02.p02 but the specific version shouldn't matter too much.
 
 If you want visualization, Geant4 must be installed with QT, example:
@@ -6,12 +6,12 @@ If you want visualization, Geant4 must be installed with QT, example:
 ```cmake ~/src/geant4.10.02.p02/ -DCMAKE_INSTALL_PREFIX="/home/meeg/software/geant4.10.02.p02" -DGEANT4_USE_QT=ON```
 
 to build:
-```git clone https://github.com/meeg/compton_camera.git```
-```cd compton_camera```
-```source ~/software/geant4.10.02.p02/bin/geant4.sh```
-```mkdir build```
-```cmake ..```
-```make```
+* ```git clone https://github.com/meeg/compton_camera.git```
+* ```cd compton_camera```
+* ```source ~/software/geant4.10.02.p02/bin/geant4.sh```
+* ```mkdir build```
+* ```cmake ..```
+* ```make```
 
 Run in the `build` directory.
 * For a console with visualization just run `./exampleB2a` (this runs the macro `init_vis.mac`).
@@ -26,6 +26,8 @@ Whichever way you run the simulation, it will make the output file `B4.root`.
 to make a plot of hit positions in the 0th ALPIDE:
 
 B4->Draw("posYVec:posXVec>>(50,-15,15,50,-7.5,7.5)","chamberNbVec==0","colz")
+
+# original README from Geant4 example B2a
 
 $Id: README 95508 2016-02-12 13:52:06Z gcosmo $
 -------------------------------------------------------------------
