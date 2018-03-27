@@ -25,7 +25,7 @@ Whichever way you run the simulation, it will make the output file `B4.root`.
 
 to make a plot of hit positions in the 0th ALPIDE:
 
-B4->Draw("posYVec:posXVec>>(50,-15,15,50,-7.5,7.5)","chamberNbVec==0","colz")
+```B4->Draw("posYVec:posXVec>>(50,-15,15,50,-7.5,7.5)","chamberNbVec==0","colz")```
 
 # original README from Geant4 example B2a
 
